@@ -1,7 +1,7 @@
 {
-  "name": "allen-torrent",
+  "name": "bittorrent-simples",
   "version": "1.0.0",
-  "description": "A bittorrent client for education purposes!",
+  "description": "Um cliente de bittorrent para fins educativos!",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
