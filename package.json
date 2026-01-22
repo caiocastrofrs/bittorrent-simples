@@ -1,6 +1,7 @@
 {
   "name": "bittorrent-simples",
   "version": "1.0.0",
+  "type": "module",
   "description": "Um cliente de bittorrent para fins educativos!",
   "main": "index.js",
   "scripts": {
