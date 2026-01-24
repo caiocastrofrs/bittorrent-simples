@@ -16,24 +16,34 @@ const getPeers = (torrent, callback) => {
 
     socket.on('message', response => {
         if (respType(response) === 'connect') {
+            console.log('connect')
             const connResp = parseConnResp(response);
             const announceReq = buildAnnounceReq(connResp.connectionId, torrent)
             udpSend(socket, announceReq, url);
         } else if (respType(response) == 'announce') {
+            console.log('announce')
             const announceResp = parseAnnounceResp(response);
             callback(announceResp.peers)
         }
     })
 }
 
-function udpSend(socket, message, rawUrl, callback = () => { }) {
-    const url = URL.parse(rawUrl);
+function udpSend(socket, message, rawUrl, callback = () => { console.log() }) {
+    const url = URL.parse(
+        rawUrl.split(',')
+            .map(Number)
+            .map(code => String.fromCharCode(code))
+            .join(''));
+
     socket.send(message, 0, message.length, url.port, url.host, callback);
 };
 
-export default getPeers;
+function respType(resp) {
+    const action = resp.readUInt32BE(0);
+    if (action === 0) return 'connect';
+    if (action === 1) return 'announce';
+}
 
-function respType(resp) { }
 function buildConnReq() {
     const buf = Buffer.alloc(16);
 
@@ -100,3 +110,5 @@ function parseAnnounceResp(resp) {
         })
     }
 }
+
+export default getPeers;

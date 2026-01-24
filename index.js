@@ -1,11 +1,8 @@
 "use strict";
-import fs from 'fs';
-import bencode from 'bencode';
-import getPeers from './tracker.js'
 
-const torrent = fs.readFileSync("puppy.torrent");
-const decoded_torrent = bencode.decode(torrent);
+import { open } from './src/torrent-parser.js'
+import download from './src/download.js'
 
-getPeers(decoded_torrent, peers => {
-    console.log('list of peers: ', peers);
-})
+const torrent = open(process.argv[2]);
+
+download(torrent)
